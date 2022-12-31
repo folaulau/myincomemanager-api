@@ -1,7 +1,10 @@
 package com.incomemanager.api.entity.user;
 
-public interface UserService {
-    String generateApiToken(User user);
+import com.incomemanager.api.dto.AuthenticationResponseDTO;
+import com.incomemanager.api.dto.AuthenticatorDTO;
+import com.incomemanager.api.dto.UserSignUpDTO;
 
-    AuthenticationResponseDTO login(AuthenticatorDTO authenticatorDTO);
+public interface UserService {
+
+    AuthenticationResponseDTO signupWithEmailAndPassword(UserSignUpDTO userSignUpDTO);
 }

@@ -1,6 +1,7 @@
-package com.incomemanager.api.entity.user;
+package com.incomemanager.api.dto;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
@@ -46,5 +47,7 @@ public class AuthenticationResponseDTO implements Serializable {
     private String            firstName;
 
     private String            lastName;
+
+    private LocalDateTime     time;
 
 }

@@ -3,6 +3,9 @@ package com.incomemanager.api.entity.user;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.incomemanager.api.dto.AuthenticationResponseDTO;
+import com.incomemanager.api.dto.AuthenticatorDTO;
+import com.incomemanager.api.dto.UserSignUpDTO;
 import com.incomemanager.api.utils.ObjectUtils;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -22,39 +25,14 @@ public class UserRestController {
     @Autowired
     private UserService userService;
 
-    @Operation(summary = "Make Booking", description = "make a booking")
-    @PostMapping(value = "/users/update")
-    public ResponseEntity<User> update(
-            @RequestBody User user) {
-        log.info("update user={}", ObjectUtils.toJson(user));
+    @Operation(summary = "Sign Up", description = "sign up with email and password")
+    @PostMapping(value = "/users/signup")
+    public ResponseEntity<AuthenticationResponseDTO> signupWithEmailAndPassword(@RequestBody UserSignUpDTO userSignUpDTO) {
+        log.info("signupWithEmailAndPassword={}", ObjectUtils.toJson(userSignUpDTO));
 
-        user.setLastName("updated lastname");
-
-        log.info("updated user={}", ObjectUtils.toJson(user));
-
-        return new ResponseEntity<>(user, OK);
-    }
-
-    @PostMapping(value = "/users/login")
-    public ResponseEntity<AuthenticationResponseDTO> login(
-            @RequestBody AuthenticatorDTO authenticatorDTO) {
-        log.info("login authenticatorDTO={}", ObjectUtils.toJson(authenticatorDTO));
-
-        AuthenticationResponseDTO authenticationResponseDTO = userService.login(authenticatorDTO);
+        AuthenticationResponseDTO authenticationResponseDTO = userService.signupWithEmailAndPassword(userSignUpDTO);
 
         return new ResponseEntity<>(authenticationResponseDTO, OK);
     }
 
-    @GetMapping(value = "/users/details")
-    public ResponseEntity<User> getDetails() {
-        log.info("get user details");
-        User user = User.builder()
-                .id(1L)
-                .firstName("Folau")
-                .lastName("Kaveinga")
-                .build();
-        log.info("user={}", ObjectUtils.toJson(user));
-
-        return new ResponseEntity<>(user, OK);
-    }
 }

@@ -1,4 +1,4 @@
-package com.incomemanager.api.entity.user;
+package com.incomemanager.api.dto;
 
 import java.io.Serializable;
 

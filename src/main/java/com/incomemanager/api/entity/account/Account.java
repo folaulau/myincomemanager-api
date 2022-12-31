@@ -1,17 +1,13 @@
 package com.incomemanager.api.entity.account;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.UUID;
 
-import jakarta.persistence.PrePersist;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Index;
-import jakarta.persistence.Table;
+import com.incomemanager.api.entity.income.PayType;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
@@ -46,27 +42,37 @@ import lombok.RequiredArgsConstructor;
 public class Account implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    
+
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false, updatable = false, unique = true)
-    private Long              id;
+    private Long id;
 
     @Column(name = "uuid", unique = true, nullable = false, updatable = false)
-    private String            uuid;
+    private String uuid;
 
     @Column(name = "deleted", nullable = false)
-    private boolean           deleted;
+    private boolean deleted;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "budget_period")
+    private BudgetPeriod budgetPeriod;
+
+    @Column(name = "budget_date")
+    private LocalDate budgetDate;
+
+    @Column(name = "budget_time")
+    private LocalTime budgetTime;
 
     @CreationTimestamp
     @Column(name = "created_at", nullable = false, updatable = false)
-    private LocalDateTime     createdAt;
+    private LocalDateTime createdAt;
 
     @UpdateTimestamp
     @Column(name = "updated_at", nullable = false)
-    private LocalDateTime     updatedAt;
-    
+    private LocalDateTime updatedAt;
+
     public Account(Long id) {
         this.id = id;
     }
