@@ -50,10 +50,13 @@ public class Goal implements Serializable {
     private String description;
 
     @Column(name = "target_amount")
-    private BigDecimal targetAmount;
+    private Double targetAmount;
 
     @Column(name = "current_amount")
-    private BigDecimal currentAmount;
+    private Double currentAmount;
+    
+    @Column(name = "amount_per_paycheck")
+    private Double amountPerPaycheck;
 
     // where the goal should be reached
     @Column(name = "deadline", nullable = true)

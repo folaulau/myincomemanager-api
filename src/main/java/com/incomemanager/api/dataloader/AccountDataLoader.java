@@ -7,6 +7,7 @@ import java.time.LocalTime;
 import java.util.Optional;
 
 import com.incomemanager.api.entity.account.BudgetPeriod;
+import com.incomemanager.api.entity.address.Address;
 import com.incomemanager.api.entity.goal.Goal;
 import com.incomemanager.api.entity.goal.GoalRepository;
 import com.incomemanager.api.entity.income.Income;
@@ -57,9 +58,19 @@ public class AccountDataLoader implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
-
+        
+        Address address = Address.builder()
+                .id(1L)
+                .street("123 rd")
+                .city("Lehi")
+                .state("UT")
+                .zipcode("84043")
+                .country("US")
+                .build();
+        
         Account account = Account.builder()
                 .id(1L)
+                .address(address)
                 .budgetPeriod(BudgetPeriod.WEEKLY)
                 .budgetDate(LocalDate.now().plusDays(2))
                 .budgetTime(LocalTime.of(19,30))
@@ -86,8 +97,8 @@ public class AccountDataLoader implements ApplicationRunner {
                 .id(1L)
                 .payPeriod(PayPeriod.SEMI_MONTHLY)
                 .payType(PayType.SALARY)
-                .yearlyTotal(BigDecimal.valueOf(185000))
-                .payPeriodNetAmount(BigDecimal.valueOf(5700))
+                .yearlyTotal(185000.0)
+                .payPeriodNetAmount(5700.0)
                 .companyName("Anvilogic")
                 .position("Senior Software Engineer")
                 .startDate(LocalDate.of(2022,03,15))
@@ -100,8 +111,8 @@ public class AccountDataLoader implements ApplicationRunner {
                 .id(2L)
                 .payPeriod(PayPeriod.BI_WEEKLY)
                 .payType(PayType.SALARY)
-                .yearlyTotal(BigDecimal.valueOf(117000))
-                .payPeriodNetAmount(BigDecimal.valueOf(3700))
+                .yearlyTotal(117000.0)
+                .payPeriodNetAmount(3700.0)
                 .companyName("Datappraise")
                 .position("Senior Software Engineer")
                 .startDate(LocalDate.of(2020,02,15))
@@ -112,8 +123,8 @@ public class AccountDataLoader implements ApplicationRunner {
 
         Goal goal = Goal.builder()
                 .id(1L)
-                .currentAmount(BigDecimal.valueOf(3000))
-                .targetAmount(BigDecimal.valueOf(100000))
+                .currentAmount(3000.0)
+                .targetAmount(100000.0)
                 .title("Buy New House")
                 .deadline(LocalDate.now().plusYears(2))
                 .description("Buy a bigger home")
@@ -127,7 +138,7 @@ public class AccountDataLoader implements ApplicationRunner {
                 .monthlyDueDay(1)
                 .account(account)
                 .name("Mortgage")
-                .amount(BigDecimal.valueOf(1500))
+                .amount(1500.0)
                 .type(ExpenseType.HOUSING)
                 .build();
 
@@ -138,7 +149,7 @@ public class AccountDataLoader implements ApplicationRunner {
                 .monthlyDueDay(1)
                 .account(account)
                 .name("Gas")
-                .amount(BigDecimal.valueOf(60))
+                .amount(60.0)
                 .type(ExpenseType.UTILITY)
                 .build();
 
@@ -149,7 +160,7 @@ public class AccountDataLoader implements ApplicationRunner {
                 .monthlyDueDay(1)
                 .account(account)
                 .name("Netflix")
-                .amount(BigDecimal.valueOf(14.50))
+                .amount(14.50)
                 .type(ExpenseType.ENTERTAINMENT)
                 .build();
 
@@ -159,7 +170,7 @@ public class AccountDataLoader implements ApplicationRunner {
                 .id(4L)
                 .account(account)
                 .name("Groceries")
-                .amount(BigDecimal.valueOf(1000))
+                .amount(1000.0)
                 .type(ExpenseType.GROCERIES)
                 .build();
 

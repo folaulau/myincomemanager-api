@@ -53,12 +53,12 @@ public class Income implements Serializable {
 
     // pay check net amount(after taxes)
     @Column(name = "pay_period_net_amount")
-    private BigDecimal payPeriodNetAmount;
+    private Double payPeriodNetAmount;
     /**
      * yearly total income
      */
     @Column(name = "yearly_total")
-    private BigDecimal yearlyTotal;
+    private Double yearlyTotal;
 
     @Column(name = "company_name")
     private String companyName;
@@ -74,8 +74,8 @@ public class Income implements Serializable {
     private LocalDate endDate;
 
     @ManyToOne(cascade = CascadeType.DETACH, fetch = FetchType.EAGER)
-    @JoinColumn(name = "user_id")
-    private User user;
+    @JoinColumn(name = "account_id")
+    private Account account;
 
     @Column(name = "deleted", nullable = false)
     private boolean deleted;

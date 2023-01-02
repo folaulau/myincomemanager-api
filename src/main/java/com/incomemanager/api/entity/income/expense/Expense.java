@@ -54,7 +54,7 @@ public class Expense implements Serializable {
     private String name;
 
     @Column(name = "amount")
-    private BigDecimal amount;
+    private Double amount;
 
     //1-28
     @Column(name = "monthly_due_day", nullable = true)

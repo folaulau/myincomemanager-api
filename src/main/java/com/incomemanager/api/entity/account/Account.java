@@ -6,7 +6,10 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.UUID;
 
+import com.incomemanager.api.entity.address.Address;
 import com.incomemanager.api.entity.income.PayType;
+import com.incomemanager.api.entity.user.role.Role;
+
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 
@@ -43,35 +46,38 @@ public class Account implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false, updatable = false, unique = true)
-    private Long id;
+    private Long              id;
 
     @Column(name = "uuid", unique = true, nullable = false, updatable = false)
-    private String uuid;
+    private String            uuid;
 
     @Column(name = "deleted", nullable = false)
-    private boolean deleted;
+    private boolean           deleted;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "budget_period")
-    private BudgetPeriod budgetPeriod;
+    private BudgetPeriod      budgetPeriod;
 
     @Column(name = "budget_date")
-    private LocalDate budgetDate;
+    private LocalDate         budgetDate;
 
     @Column(name = "budget_time")
-    private LocalTime budgetTime;
+    private LocalTime         budgetTime;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "address_id", referencedColumnName = "id")
+    private Address           address;
 
     @CreationTimestamp
     @Column(name = "created_at", nullable = false, updatable = false)
-    private LocalDateTime createdAt;
+    private LocalDateTime     createdAt;
 
     @UpdateTimestamp
     @Column(name = "updated_at", nullable = false)
-    private LocalDateTime updatedAt;
+    private LocalDateTime     updatedAt;
 
     public Account(Long id) {
         this.id = id;

@@ -24,6 +24,8 @@ public class AccountDTO implements Serializable {
 
     private String            uuid;
 
+    private AddressDTO        address;
+
     private LocalDateTime     createdAt;
 
     private LocalDateTime     updatedAt;

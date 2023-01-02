@@ -1,10 +1,9 @@
 package com.incomemanager.api.dto;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
-
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.incomemanager.api.entity.user.role.Role;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -44,10 +43,14 @@ public class AuthenticationResponseDTO implements Serializable {
 
     private String            email;
 
-    private String            firstName;
+    private Long              phoneNumber;
 
-    private String            lastName;
+    private Role              role;
 
-    private LocalDateTime     time;
+    private String            status;
+
+    private String            signUpStatus;
+
+    private String            accountUuid;
 
 }

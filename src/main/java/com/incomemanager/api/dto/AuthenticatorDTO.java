@@ -23,6 +23,4 @@ public class AuthenticatorDTO implements Serializable {
 
     private boolean           rememberMe;
 
-    private Long            userId;
-
 }

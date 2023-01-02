@@ -2,7 +2,13 @@ package com.incomemanager.api.entity.user;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
+
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.CascadeType;
@@ -17,6 +23,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Index;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotEmpty;
 
@@ -29,11 +36,13 @@ import org.hibernate.annotations.ResultCheckStyle;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.annotations.Where;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.incomemanager.api.entity.account.Account;
+import com.incomemanager.api.entity.user.role.Role;
 import com.incomemanager.api.utils.ObjectUtils;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -81,6 +90,23 @@ public class User implements Serializable {
     @Enumerated(EnumType.STRING)
     @Column(name = "user_type")
     private UserType          type;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status")
+    private UserStatus        status;
+
+    @Column(name = "third_party_name")
+    private String            thirdPartyName;
+    /**
+     * Social platforms(facebook, google, etc) don't give email<br>
+     * Now create a temp email for now
+     */
+    @Column(name = "email_temp")
+    private boolean           emailTemp;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "role_id", referencedColumnName = "id")
+    private Role              role;
 
     @Column(name = "deleted", nullable = false)
     private boolean           deleted;
@@ -150,6 +176,17 @@ public class User implements Serializable {
             fullName.append(lastName);
         }
         return fullName.toString();
+    }
+
+    public String getRoleAsString() {
+        if (this.role == null) {
+            return null;
+        }
+        return this.role.getUserType().name();
+    }
+
+    public boolean isActive() {
+        return Optional.ofNullable(this.status).orElse(UserStatus.NONE).equals(UserStatus.ACTIVE);
     }
 
 }

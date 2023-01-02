@@ -5,7 +5,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.incomemanager.api.dto.AuthenticationResponseDTO;
 import com.incomemanager.api.dto.AuthenticatorDTO;
-import com.incomemanager.api.dto.UserSignUpDTO;
+import com.incomemanager.api.dto.UserDTO;
+import com.incomemanager.api.dto.UserProfileUpdateDTO;
 import com.incomemanager.api.utils.ObjectUtils;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -25,14 +26,24 @@ public class UserRestController {
     @Autowired
     private UserService userService;
 
-    @Operation(summary = "Sign Up", description = "sign up with email and password")
-    @PostMapping(value = "/users/signup")
-    public ResponseEntity<AuthenticationResponseDTO> signupWithEmailAndPassword(@RequestBody UserSignUpDTO userSignUpDTO) {
-        log.info("signupWithEmailAndPassword={}", ObjectUtils.toJson(userSignUpDTO));
+    @Operation(summary = "Authenticate", description = "authenticate")
+    @PostMapping(value = "/users/authenticate")
+    public ResponseEntity<AuthenticationResponseDTO> authenticate(@RequestBody AuthenticatorDTO authenticatorDTO) {
+        log.info("authenticate={}", ObjectUtils.toJson(authenticatorDTO));
 
-        AuthenticationResponseDTO authenticationResponseDTO = userService.signupWithEmailAndPassword(userSignUpDTO);
+        AuthenticationResponseDTO authenticationResponseDTO = userService.authenticate(authenticatorDTO);
 
         return new ResponseEntity<>(authenticationResponseDTO, OK);
+    }
+    
+    @Operation(summary = "Update Profile", description = "update profile")
+    @PutMapping(value = "/users/profile")
+    public ResponseEntity<UserDTO> updateProfile(@RequestBody UserProfileUpdateDTO userProfileUpdateDTO) {
+        log.info("updateProfile={}", ObjectUtils.toJson(userProfileUpdateDTO));
+
+        UserDTO userDTO = userService.updateProfile(userProfileUpdateDTO);
+
+        return new ResponseEntity<>(userDTO, OK);
     }
 
 }
