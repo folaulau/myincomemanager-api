@@ -102,7 +102,7 @@ public class AccountDataLoader implements ApplicationRunner {
                 .companyName("Anvilogic")
                 .position("Senior Software Engineer")
                 .startDate(LocalDate.of(2022,03,15))
-                .user(user)
+                .account(account)
                 .build();
 
         incomeRepository.saveAndFlush(income);
@@ -116,7 +116,7 @@ public class AccountDataLoader implements ApplicationRunner {
                 .companyName("Datappraise")
                 .position("Senior Software Engineer")
                 .startDate(LocalDate.of(2020,02,15))
-                .user(user)
+                .account(account)
                 .build();
 
         incomeRepository.saveAndFlush(income);

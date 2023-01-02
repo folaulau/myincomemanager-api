@@ -20,7 +20,6 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-
 @Builder
 @Data
 @AllArgsConstructor
@@ -38,55 +37,58 @@ public class Income implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false, updatable = false, unique = true)
-    private Long id;
+    private Long              id;
 
     @Column(name = "uuid", unique = true, nullable = false, updatable = false)
-    private String uuid;
+    private String            uuid;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "pay_type")
-    private PayType payType;
+    private PayType           payType;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "pay_period")
-    private PayPeriod payPeriod;
+    private PayPeriod         payPeriod;
 
     // pay check net amount(after taxes)
     @Column(name = "pay_period_net_amount")
-    private Double payPeriodNetAmount;
+    private Double            payPeriodNetAmount;
     /**
      * yearly total income
      */
     @Column(name = "yearly_total")
-    private Double yearlyTotal;
+    private Double            yearlyTotal;
 
     @Column(name = "company_name")
-    private String companyName;
+    private String            companyName;
 
     // position like Software Developer
     @Column(name = "position")
-    private String position;
+    private String            position;
+
+    @Column(name = "next_pay_day", nullable = true)
+    private LocalDate         nextPayDay;
 
     @Column(name = "start_date", nullable = true)
-    private LocalDate startDate;
+    private LocalDate         startDate;
 
     @Column(name = "end_date", nullable = true)
-    private LocalDate endDate;
+    private LocalDate         endDate;
 
     @ManyToOne(cascade = CascadeType.DETACH, fetch = FetchType.EAGER)
     @JoinColumn(name = "account_id")
-    private Account account;
+    private Account           account;
 
     @Column(name = "deleted", nullable = false)
-    private boolean deleted;
+    private boolean           deleted;
 
     @CreationTimestamp
     @Column(name = "created_at", nullable = false, updatable = false)
-    private LocalDateTime createdAt;
+    private LocalDateTime     createdAt;
 
     @UpdateTimestamp
     @Column(name = "updated_at", nullable = false)
-    private LocalDateTime updatedAt;
+    private LocalDateTime     updatedAt;
 
     @PrePersist
     private void preCreate() {
