@@ -1,4 +1,4 @@
-package com.incomemanager.api.entity.income.expense;
+package com.incomemanager.api.entity.expense;
 
 /**
  * MONTLY for all types

@@ -11,6 +11,7 @@ import org.mapstruct.NullValueMappingStrategy;
 import org.mapstruct.ReportingPolicy;
 
 import com.incomemanager.api.entity.address.Address;
+import com.incomemanager.api.entity.expense.Expense;
 import com.incomemanager.api.entity.goal.Goal;
 import com.incomemanager.api.entity.income.Income;
 import com.incomemanager.api.entity.user.User;
@@ -27,7 +28,7 @@ public interface EntityDTOMapper {
 
     AuthenticationResponseDTO mapUserToAuthenticationResponse(User user);
 
-    @Mappings({@Mapping(target = "uuid", ignore = true),@Mapping(target = "account", ignore = true)})
+    @Mappings({@Mapping(target = "uuid", ignore = true), @Mapping(target = "account", ignore = true)})
     User patchUserWithUserProfileUpdateDTO(UserProfileUpdateDTO dto, @MappingTarget User user);
 
     @Mappings({@Mapping(target = "uuid", ignore = true)})
@@ -44,7 +45,22 @@ public interface EntityDTOMapper {
 
     Income patchIncomeWithIncomeDTO(IncomeCreateUpdateDTO incomeCreateUpdateDTO, @MappingTarget Income income);
 
+    @Mappings({@Mapping(target = "uuid", ignore = true)})
     Income mapIncomeCreateUpdateDTOToIncome(IncomeCreateUpdateDTO incomeCreateUpdateDTO);
 
     IncomeDTO mapIncomeToIncomeDTO(Income savedIncome);
+
+    @Mappings({@Mapping(target = "uuid", ignore = true)})
+    Expense patchExpenseWithIncomeCreateUpdateDTO(ExpenseCreateUpdateDTO expenseCreateUpdateDTO, @MappingTarget Expense expense);
+
+    @Mappings({@Mapping(target = "uuid", ignore = true)})
+    Expense mapIncomeCreateUpdateDTOToExpense(ExpenseCreateUpdateDTO expenseCreateUpdateDTO);
+
+    ExpenseDTO mapExpenseToExpenseDTO(Expense savedExpense);
+
+    List<IncomeDTO> mapIncomesToIncomeDTOs(List<Income> incomes);
+
+    List<GoalDTO> mapGoalsToGoalDTOS(List<Goal> goals);
+
+    List<ExpenseDTO> mapExpensesToExpenseDTOs(List<Expense> expenses);
 }

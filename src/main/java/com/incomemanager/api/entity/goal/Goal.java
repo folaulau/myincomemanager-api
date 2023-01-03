@@ -27,8 +27,8 @@ import java.util.UUID;
 @JsonInclude(value = JsonInclude.Include.NON_NULL)
 @DynamicUpdate
 @Entity
-@SQLDelete(sql = "UPDATE goals SET deleted = 'T' WHERE id = ?", check = ResultCheckStyle.NONE)
-@Where(clause = "deleted = 'F'")
+@SQLDelete(sql = "UPDATE goals SET deleted = true WHERE id = ?", check = ResultCheckStyle.NONE)
+@Where(clause = "deleted = false")
 @Table(name = "goals", indexes = {@Index(columnList = "uuid"), @Index(columnList = "deleted")})
 public class Goal implements Serializable {
 

@@ -8,15 +8,16 @@ import java.util.Optional;
 
 import com.incomemanager.api.entity.account.BudgetPeriod;
 import com.incomemanager.api.entity.address.Address;
+import com.incomemanager.api.entity.expense.Expense;
+import com.incomemanager.api.entity.expense.ExpenseRepository;
+import com.incomemanager.api.entity.expense.ExpenseType;
 import com.incomemanager.api.entity.goal.Goal;
 import com.incomemanager.api.entity.goal.GoalRepository;
 import com.incomemanager.api.entity.income.Income;
 import com.incomemanager.api.entity.income.IncomeRepository;
 import com.incomemanager.api.entity.income.PayPeriod;
 import com.incomemanager.api.entity.income.PayType;
-import com.incomemanager.api.entity.income.expense.Expense;
-import com.incomemanager.api.entity.income.expense.ExpenseRepository;
-import com.incomemanager.api.entity.income.expense.ExpenseType;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;

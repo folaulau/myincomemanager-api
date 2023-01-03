@@ -55,8 +55,8 @@ import lombok.NoArgsConstructor;
 @JsonInclude(value = Include.NON_NULL)
 @DynamicUpdate
 @Entity
-@SQLDelete(sql = "UPDATE users SET deleted = 'T' WHERE id = ?", check = ResultCheckStyle.NONE)
-@Where(clause = "deleted = 'F'")
+@SQLDelete(sql = "UPDATE users SET deleted = true WHERE id = ?", check = ResultCheckStyle.NONE)
+@Where(clause = "deleted = false")
 @Table(name = "users", indexes = {@Index(columnList = "uuid"), @Index(columnList = "deleted")})
 public class User implements Serializable {
 

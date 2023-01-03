@@ -85,7 +85,7 @@ public class UserServiceImp implements UserService {
             user = new User();
             user.setUuid(userRecord.getUid());
             user.setRole(new Role(UserType.user));
-
+            user.setType(UserType.user);
             user.setStatus(UserStatus.ACTIVE);
             user.setAccount(account);
 

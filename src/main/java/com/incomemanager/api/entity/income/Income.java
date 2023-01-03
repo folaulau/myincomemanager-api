@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.incomemanager.api.entity.account.Account;
 import com.incomemanager.api.entity.user.User;
 import com.incomemanager.api.entity.user.UserType;
+import com.incomemanager.api.utils.ObjectUtils;
+
 import jakarta.persistence.*;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Index;
@@ -27,8 +29,8 @@ import java.util.UUID;
 @JsonInclude(value = JsonInclude.Include.NON_NULL)
 @DynamicUpdate
 @Entity
-@SQLDelete(sql = "UPDATE incomes SET deleted = 'T' WHERE id = ?", check = ResultCheckStyle.NONE)
-@Where(clause = "deleted = 'F'")
+@SQLDelete(sql = "UPDATE incomes SET deleted = true WHERE id = ?", check = ResultCheckStyle.NONE)
+@Where(clause = "deleted = false")
 @Table(name = "incomes", indexes = {@Index(columnList = "uuid"), @Index(columnList = "deleted")})
 public class Income implements Serializable {
 
@@ -95,5 +97,9 @@ public class Income implements Serializable {
         if (this.uuid == null || this.uuid.isEmpty()) {
             this.uuid = "income-" + UUID.randomUUID().toString();
         }
+    }
+    
+    public String toJson() {
+        return ObjectUtils.toJson(this);
     }
 }

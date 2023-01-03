@@ -36,13 +36,14 @@ public class IncomeServiceImp implements IncomeService {
     public List<IncomeDTO> save(String accountUuid, List<IncomeCreateUpdateDTO> incomeCreateUpdateDTOs) {
         Account account = this.accountDAO.findByUuid(accountUuid).orElseThrow(() -> new ApiException("Account not found", "account not found for uuid=" + accountUuid));
 
-        List<IncomeDTO> incomeDTOs = new ArrayList<>();
+        List<Income> incomes = new ArrayList<>();
 
         for (IncomeCreateUpdateDTO incomeCreateUpdateDTO : incomeCreateUpdateDTOs) {
+            log.info("incomeCreateUpdateDTO={}",incomeCreateUpdateDTO);
+            
             String uuid = incomeCreateUpdateDTO.getUuid();
             Income income = null;
-            if (uuid != null && uuid.isEmpty()) {
-
+            if (uuid != null && !uuid.isEmpty()) {
                 Optional<Income> optIncome = incomeDAO.findByUuid(uuid);
 
                 if (optIncome.isPresent()) {
@@ -56,9 +57,17 @@ public class IncomeServiceImp implements IncomeService {
             }
 
             income.setAccount(account);
+            
             Income savedIncome = this.incomeDAO.save(income);
-            incomeDTOs.add(this.entityDTOMapper.mapIncomeToIncomeDTO(savedIncome));
+            incomes.add(savedIncome);
         }
+        
+        List<IncomeDTO> incomeDTOs = entityDTOMapper.mapIncomesToIncomeDTOs(incomes);
+        
+        /**
+         * save income that is passed, then remove/delete income that is not in the payload
+         */
+        incomeDAO.deleteOtherThenThese(incomes);
 
         return incomeDTOs;
     }

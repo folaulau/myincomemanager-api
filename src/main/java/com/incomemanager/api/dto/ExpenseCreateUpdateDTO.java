@@ -2,10 +2,9 @@ package com.incomemanager.api.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.incomemanager.api.entity.account.Account;
+import com.incomemanager.api.entity.expense.ExpenseType;
 import com.incomemanager.api.entity.income.PayPeriod;
-import com.incomemanager.api.entity.income.PayType;
 import com.incomemanager.api.entity.user.User;
-import com.incomemanager.api.entity.user.UserType;
 import jakarta.persistence.*;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Index;
@@ -22,33 +21,28 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+/**
+ * This class keeps track of expenses that user will have per month.
+ */
+
 @Builder
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonInclude(value = JsonInclude.Include.NON_NULL)
-public class IncomeCreateUpdateDTO implements Serializable {
+public class ExpenseCreateUpdateDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     private String            uuid;
 
-    private PayType           payType;
+    private ExpenseType       type;
 
-    private PayPeriod         payPeriod;
+    private String            name;
 
-    private Double            payPeriodNetAmount;
+    private Double            amount;
 
-    private Double            yearlyTotal;
-
-    private LocalDate         nextPayDay;
-
-    private String            companyName;
-
-    private String            position;
-
-    private LocalDate         startDate;
-
-    private LocalDate         endDate;
+    // 1-28
+    private Integer           monthlyDueDay;
 
 }

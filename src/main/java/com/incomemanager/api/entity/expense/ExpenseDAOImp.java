@@ -1,4 +1,6 @@
-package com.incomemanager.api.entity.goal;
+package com.incomemanager.api.entity.expense;
+
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -7,41 +9,37 @@ import java.util.StringJoiner;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 
-import com.incomemanager.api.entity.income.Income;
-
-import lombok.extern.slf4j.Slf4j;
-
+@Service
 @Slf4j
-@Repository
-public class GoalDAOImp implements GoalDAO {
+public class ExpenseDAOImp implements ExpenseDAO {
 
     @Autowired
-    private JdbcTemplate   jdbcTemplate;
-
+    private ExpenseRepository expenseRepository;
+    
     @Autowired
-    private GoalRepository goalRepository;
+    private JdbcTemplate      jdbcTemplate;
 
     @Override
-    public Goal save(Goal goal) {
-        return goalRepository.saveAndFlush(goal);
+    public Expense save(Expense expense) {
+        return expenseRepository.saveAndFlush(expense);
     }
 
     @Override
-    public Optional<Goal> findByUuid(String uuid) {
-        return goalRepository.findByUuid(uuid);
+    public Optional<Expense> findByUuid(String uuid) {
+        return expenseRepository.findByUuid(uuid);
     }
 
     @Override
-    public void deleteOtherThenThese(List<Goal> goals) {
-        if (goals == null || goals.size() == 0) {
+    public void deleteOtherThenThese(List<Expense> expenses) {
+        if (expenses == null || expenses.size() == 0) {
             return;
         }
 
         StringBuilder query = new StringBuilder();
 
-        query.append("UPDATE goals ");
+        query.append("UPDATE expenses ");
         query.append("SET deleted = true ");
         query.append("WHERE id NOT IN ( ");
         query.append("");
@@ -50,14 +48,17 @@ public class GoalDAOImp implements GoalDAO {
 
         StringJoiner params = new StringJoiner(",");
 
-        for (Goal goal : goals) {
+        for (Expense expense : expenses) {
             params.add(" ? ");
-            deleteIds.add(goal.getId().intValue());
+            deleteIds.add(expense.getId().intValue());
         }
 
         query.append(params.toString());
 
         query.append(" ) ");
+        
+        log.info("query={}", query);
+        log.info("deleteIds={}", deleteIds);
 
         try {
 
@@ -67,5 +68,4 @@ public class GoalDAOImp implements GoalDAO {
             log.warn("Exception, msg={}", e.getLocalizedMessage());
         }
     }
-
 }

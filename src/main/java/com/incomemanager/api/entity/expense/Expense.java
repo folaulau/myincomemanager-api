@@ -1,4 +1,4 @@
-package com.incomemanager.api.entity.income.expense;
+package com.incomemanager.api.entity.expense;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.incomemanager.api.entity.account.Account;
@@ -31,8 +31,8 @@ import java.util.UUID;
 @JsonInclude(value = JsonInclude.Include.NON_NULL)
 @DynamicUpdate
 @Entity
-@SQLDelete(sql = "UPDATE expenses SET deleted = 'T' WHERE id = ?", check = ResultCheckStyle.NONE)
-@Where(clause = "deleted = 'F'")
+@SQLDelete(sql = "UPDATE expenses SET deleted = true WHERE id = ?", check = ResultCheckStyle.NONE)
+@Where(clause = "deleted = false")
 @Table(name = "expenses", indexes = {@Index(columnList = "uuid"), @Index(columnList = "deleted")})
 public class Expense implements Serializable {
 

@@ -36,12 +36,12 @@ public class GoalServiceImp implements GoalService {
 
         Account account = this.accountDAO.findByUuid(accountUuid).orElseThrow(() -> new ApiException("Account not found", "account not found for uuid=" + accountUuid));
 
-        List<GoalDTO> goalDTOs = new ArrayList<>();
+        List<Goal> goals = new ArrayList<>();
 
         for (GoalCreateUpdateDTO goalCreateUpdateDTO : goalCreateUpdateDTOs) {
             String uuid = goalCreateUpdateDTO.getUuid();
             Goal goal = null;
-            if (uuid != null && uuid.isEmpty()) {
+            if (uuid != null && !uuid.isEmpty()) {
 
                 Optional<Goal> optGoal = goalDAO.findByUuid(uuid);
 
@@ -57,8 +57,12 @@ public class GoalServiceImp implements GoalService {
 
             goal.setAccount(account);
             Goal savedGoal = this.goalDAO.save(goal);
-            goalDTOs.add(this.entityDTOMapper.mapGoalToGoalDTO(savedGoal));
+            goals.add(savedGoal);
         }
+        
+        goalDAO.deleteOtherThenThese(goals);
+        
+        List<GoalDTO> goalDTOs = entityDTOMapper.mapGoalsToGoalDTOS(goals);
 
         return goalDTOs;
     }
