@@ -14,6 +14,7 @@ import com.incomemanager.api.entity.address.Address;
 import com.incomemanager.api.entity.expense.Expense;
 import com.incomemanager.api.entity.goal.Goal;
 import com.incomemanager.api.entity.income.Income;
+import com.incomemanager.api.entity.transaction.Transaction;
 import com.incomemanager.api.entity.user.User;
 
 // @formatter:off
@@ -64,4 +65,14 @@ public interface EntityDTOMapper {
     List<GoalDTO> mapGoalsToGoalDTOS(List<Goal> goals);
 
     List<ExpenseDTO> mapExpensesToExpenseDTOs(List<Expense> expenses);
+
+    @Mappings({@Mapping(target = "total", ignore = true)})
+    Transaction mapTransactionCreateDTOToTransaction(TransactionCreateDTO transactionCreateDTO);
+
+    List<TransactionDTO> mapTransactionsToTransactionDTOs(List<Transaction> transactions);
+
+    @Mappings({@Mapping(target = "uuid", ignore = true)})
+    Transaction patchTransactionWithTransactionUpdateDTO(TransactionUpdateDTO updateTransaction, @MappingTarget Transaction transaction);
+
+    TransactionDTO mapTransactionToTransactionDTO(Transaction transaction);
 }
