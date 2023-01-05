@@ -4,7 +4,6 @@ import static org.springframework.http.HttpStatus.UNAUTHORIZED;
 
 import java.io.IOException;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
@@ -39,9 +38,9 @@ public class AuthenticationServiceImp implements AuthenticationService {
     @Override
     public AuthenticationResponseDTO authenticate(User user) {
         String jwt = jwtTokenService.generateToken(user);
-
         AuthenticationResponseDTO auth = entityDTOMapper.mapUserToAuthenticationResponse(user);
         auth.setToken(jwt);
+        auth.setRole(user.getRoleAsString());
         auth.setAccountUuid(user.getAccount().getUuid());
         auth.setAccountStatus(user.getAccount().getStatus());
         auth.setSignUpStatus(user.getAccount().getSignUpStatus());
@@ -53,7 +52,7 @@ public class AuthenticationServiceImp implements AuthenticationService {
 
         log.debug("jwtPayload={}", ObjectUtils.toJson(jwtPayload));
 
-//        ApiSessionUtils.setSessionToken( jwtPayload);
+        // ApiSessionUtils.setSessionToken( jwtPayload);
 
         return true;
     }

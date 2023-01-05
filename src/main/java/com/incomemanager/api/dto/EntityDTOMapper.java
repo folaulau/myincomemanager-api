@@ -26,6 +26,7 @@ public interface EntityDTOMapper {
 
     UserDTO mapUserToUserDTO(User user);
 
+    @Mappings({@Mapping(target = "role", ignore = true)})
     AuthenticationResponseDTO mapUserToAuthenticationResponse(User user);
 
     @Mappings({@Mapping(target = "uuid", ignore = true), @Mapping(target = "account", ignore = true)})

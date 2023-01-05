@@ -48,9 +48,9 @@ public class AuthenticationResponseDTO implements Serializable {
 
     private String            email;
 
-    private Long              phoneNumber;
+    private String            phoneNumber;
 
-    private Role              role;
+    private String            role;
 
     private String            status;
 
