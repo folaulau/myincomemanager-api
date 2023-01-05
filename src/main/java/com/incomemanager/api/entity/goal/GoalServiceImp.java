@@ -13,6 +13,7 @@ import com.incomemanager.api.dto.GoalCreateUpdateDTO;
 import com.incomemanager.api.dto.GoalDTO;
 import com.incomemanager.api.entity.account.Account;
 import com.incomemanager.api.entity.account.AccountDAO;
+import com.incomemanager.api.entity.account.SignUpStatus;
 import com.incomemanager.api.exception.ApiException;
 
 import lombok.extern.slf4j.Slf4j;
@@ -61,6 +62,9 @@ public class GoalServiceImp implements GoalService {
         }
         
         goalDAO.deleteOtherThenThese(goals);
+        
+        account.updateSignUpStatus(SignUpStatus.GOAL);
+        accountDAO.save(account);
         
         List<GoalDTO> goalDTOs = entityDTOMapper.mapGoalsToGoalDTOS(goals);
 

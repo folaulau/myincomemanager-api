@@ -7,6 +7,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.google.firebase.auth.UserInfo;
 import com.google.firebase.auth.UserRecord;
@@ -18,6 +19,8 @@ import com.incomemanager.api.dto.UserDTO;
 import com.incomemanager.api.dto.UserProfileUpdateDTO;
 import com.incomemanager.api.entity.account.Account;
 import com.incomemanager.api.entity.account.AccountDAO;
+import com.incomemanager.api.entity.account.AccountStatus;
+import com.incomemanager.api.entity.account.SignUpStatus;
 import com.incomemanager.api.entity.address.Address;
 import com.incomemanager.api.entity.address.AddressDAO;
 import com.incomemanager.api.entity.user.role.Role;
@@ -80,6 +83,8 @@ public class UserServiceImp implements UserService {
 
             Account account = new Account();
             account.setAddress(new Address());
+            account.setSignUpStatus(SignUpStatus.SIGN_UP);
+            account.setStatus(AccountStatus.ACTIVE);
             account = accountDAO.save(account);
 
             user = new User();
@@ -145,18 +150,34 @@ public class UserServiceImp implements UserService {
         return authenticationResponseDTO;
     }
 
+    @Transactional
     @Override
     public UserDTO updateProfile(UserProfileUpdateDTO userProfileUpdateDTO) {
         User user = userValidatorService.validateProfileUpdate(userProfileUpdateDTO);
 
         AddressDTO addressDTO = userProfileUpdateDTO.getAccount().getAddress();
 
-        Address address = user.getAccount().getAddress();
+        /**
+         * update account
+         */
+        Account account = user.getAccount();
+
+        account.updateSignUpStatus(SignUpStatus.PROFILE);
+
+        account = accountDAO.save(account);
+
+        /**
+         * update address
+         */
+        Address address = account.getAddress();
 
         address = entityDTOMapper.patchAddressWithAddressDTO(addressDTO, address);
 
         address = this.addressDAO.save(address);
 
+        /**
+         * update user
+         */
         user = entityDTOMapper.patchUserWithUserProfileUpdateDTO(userProfileUpdateDTO, user);
 
         user = userDAO.save(user);

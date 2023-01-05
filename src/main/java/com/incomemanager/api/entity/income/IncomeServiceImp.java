@@ -14,6 +14,7 @@ import com.incomemanager.api.dto.IncomeCreateUpdateDTO;
 import com.incomemanager.api.dto.IncomeDTO;
 import com.incomemanager.api.entity.account.Account;
 import com.incomemanager.api.entity.account.AccountDAO;
+import com.incomemanager.api.entity.account.SignUpStatus;
 import com.incomemanager.api.entity.goal.Goal;
 import com.incomemanager.api.exception.ApiException;
 
@@ -61,6 +62,9 @@ public class IncomeServiceImp implements IncomeService {
             Income savedIncome = this.incomeDAO.save(income);
             incomes.add(savedIncome);
         }
+        
+        account.updateSignUpStatus(SignUpStatus.INCOME);
+        accountDAO.save(account);
         
         List<IncomeDTO> incomeDTOs = entityDTOMapper.mapIncomesToIncomeDTOs(incomes);
         

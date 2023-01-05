@@ -14,6 +14,7 @@ import com.incomemanager.api.dto.IncomeCreateUpdateDTO;
 import com.incomemanager.api.dto.IncomeDTO;
 import com.incomemanager.api.entity.account.Account;
 import com.incomemanager.api.entity.account.AccountDAO;
+import com.incomemanager.api.entity.account.SignUpStatus;
 import com.incomemanager.api.entity.income.Income;
 import com.incomemanager.api.exception.ApiException;
 
@@ -62,6 +63,9 @@ public class ExpenseServiceImp implements ExpenseService {
         }
         
         expenseDAO.deleteOtherThenThese(expenses);
+        
+        account.updateSignUpStatus(SignUpStatus.EXPENSE);
+        accountDAO.save(account);
         
         List<ExpenseDTO> expenseDTOs = entityDTOMapper.mapExpensesToExpenseDTOs(expenses);
 

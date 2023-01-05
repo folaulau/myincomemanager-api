@@ -43,6 +43,8 @@ public class AuthenticationServiceImp implements AuthenticationService {
         AuthenticationResponseDTO auth = entityDTOMapper.mapUserToAuthenticationResponse(user);
         auth.setToken(jwt);
         auth.setAccountUuid(user.getAccount().getUuid());
+        auth.setAccountStatus(user.getAccount().getStatus());
+        auth.setSignUpStatus(user.getAccount().getSignUpStatus());
         return auth;
     }
 

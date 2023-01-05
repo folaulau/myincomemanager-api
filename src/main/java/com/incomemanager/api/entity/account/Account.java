@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.Arrays;
 import java.util.UUID;
 
 import com.incomemanager.api.entity.address.Address;
@@ -60,6 +61,14 @@ public class Account implements Serializable {
     @Enumerated(EnumType.STRING)
     @Column(name = "budget_period")
     private BudgetPeriod      budgetPeriod;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status")
+    private AccountStatus     status;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "sign_up_status")
+    private SignUpStatus      signUpStatus;
 
     @Column(name = "budget_date")
     private LocalDate         budgetDate;
@@ -119,6 +128,31 @@ public class Account implements Serializable {
 
     public String toJson() {
         return ObjectUtils.toJson(this);
+    }
+
+    public void updateSignUpStatus(SignUpStatus signUpStatus) {
+
+        if (signUpStatus == null) {
+            return;
+        }
+
+        if (signUpStatus.equals(SignUpStatus.PROFILE)) {
+            if (!Arrays.asList(SignUpStatus.INCOME, SignUpStatus.GOAL, SignUpStatus.EXPENSE).contains(this.signUpStatus)) {
+                this.signUpStatus = signUpStatus;
+            }
+        } else if (signUpStatus.equals(SignUpStatus.INCOME)) {
+            if (!Arrays.asList(SignUpStatus.GOAL, SignUpStatus.EXPENSE).contains(this.signUpStatus)) {
+                this.signUpStatus = signUpStatus;
+            }
+
+        } else if (signUpStatus.equals(SignUpStatus.GOAL)) {
+            if (!Arrays.asList(SignUpStatus.EXPENSE).contains(this.signUpStatus)) {
+                this.signUpStatus = signUpStatus;
+            }
+        } else if (signUpStatus.equals(SignUpStatus.EXPENSE) && !this.signUpStatus.equals(SignUpStatus.EXPENSE)) {
+            this.signUpStatus = signUpStatus;
+        }
+
     }
 
 }
