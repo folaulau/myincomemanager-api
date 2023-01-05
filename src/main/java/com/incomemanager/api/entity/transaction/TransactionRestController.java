@@ -43,7 +43,7 @@ public class TransactionRestController {
     }
 
     @Operation(summary = "Update Transaction", description = "update transaction")
-    @PutMapping(value = "/transactions")
+    @PutMapping(value = "/transaction")
     public ResponseEntity<TransactionDTO> updateTransaction(@RequestBody TransactionUpdateDTO updateTransaction) {
         log.info("updateTransaction={}", ObjectUtils.toJson(updateTransaction));
 

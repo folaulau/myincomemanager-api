@@ -58,8 +58,8 @@ public class Transaction implements Serializable {
     @Column(name = "total")
     private Double            total;
 
-    @Lob
-    @Column(name = "note")
+//    @Lob
+    @Column(name = "note", columnDefinition="TEXT")
     private String            note;
 
     // when transaction actually happened which can be the same at createdAt

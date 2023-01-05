@@ -1,5 +1,6 @@
 package com.incomemanager.api.entity.transaction;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,6 +25,7 @@ public class TransactionServiceImp implements TransactionService {
     @Autowired
     private TransactionDAO  transactionDAO;
 
+    @Autowired
     private UserDAO         userDAO;
 
     @Autowired
@@ -43,6 +45,10 @@ public class TransactionServiceImp implements TransactionService {
             Transaction transaction = entityDTOMapper.mapTransactionCreateDTOToTransaction(transactionCreateDTO);
             transaction.setUser(user);
             transaction.generateTotal();
+
+            if (transaction.getDatetime() == null) {
+                transaction.setDatetime(LocalDateTime.now());
+            }
 
             transaction = transactionDAO.save(transaction);
 
