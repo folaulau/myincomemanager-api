@@ -84,7 +84,7 @@ public class Transaction implements Serializable {
     @PrePersist
     private void preCreate() {
         if (this.uuid == null || this.uuid.isEmpty()) {
-            this.uuid = "income-" + UUID.randomUUID().toString();
+            this.uuid = "transaction-" + UUID.randomUUID().toString();
         }
     }
 

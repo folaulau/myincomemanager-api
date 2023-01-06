@@ -67,11 +67,11 @@ public class TransactionServiceImp implements TransactionService {
         String uuid = updateTransaction.getUuid();
 
         Transaction transaction = transactionDAO.findByUuid(uuid).orElseThrow(() -> new ApiException("Transaction not found", "transaction not found by uuid=" + uuid));
-        transaction.generateTotal();
-        transaction.setUser(user);
 
         transaction = entityDTOMapper.patchTransactionWithTransactionUpdateDTO(updateTransaction, transaction);
-
+        transaction.generateTotal();
+        transaction.setUser(user);
+        
         transaction = transactionDAO.save(transaction);
 
         return entityDTOMapper.mapTransactionToTransactionDTO(transaction);
